@@ -1,4 +1,3 @@
-# coding: utf-8
 require 'active_record/fixtures'
 
 def fixture_entry(table_name, objects)

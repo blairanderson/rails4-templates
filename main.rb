@@ -149,7 +149,12 @@ insert_into_file 'config/application.rb',
 # config/environments/development.rb
 insert_into_file 'config/environments/development.rb',
                  %(    config.action_mailer.delivery_method = :file\n    config.action_mailer.default_url_options = Settings.action_mailer.default_url_options.to_hash\n),
-                 after: "# config.action_mailer.raise_delivery_errors = false\n"
+                 after: "config.action_mailer.raise_delivery_errors = false\n"
+
+# config/environments/test.rb
+insert_into_file 'config/environments/test.rb',
+                 %(    config.action_mailer.default_url_options = { host: 'example.com' }\n),
+                 after: "config.action_mailer.delivery_method = :test\n"
 
 # config/settings
 run 'touch config/settings.yml'
