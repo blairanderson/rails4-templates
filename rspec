@@ -1,1 +1,3 @@
---color --drb -fs
+--color
+--format progress
+--drb
