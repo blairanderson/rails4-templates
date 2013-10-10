@@ -23,13 +23,14 @@ gem 'rails_config'
 gem 'haml-rails'
 gem 'bootstrap-sass'
 gem 'simple_form'
-#gem 'rails_admin', branch: 'rails-4'
+gem 'paranoia', '~> 2.0.0'
+gem 'rails_admin'
 #gem 'xml-sitemap'
 
 gem_group :development do
   gem 'capistrano_colors'
   gem 'capistrano-ext'
-  gem 'rvm-capistrano'
+  gem 'capistrano-rbenv'
 
   gem 'meta_request'
   #gem 'pry-doc'
@@ -53,6 +54,7 @@ gem_group :test do
   gem 'simplecov-rcov', require: false
 
   gem 'rb-fsevent', require: false
+  gem 'spork', '1.0.0rc3'
   gem 'guard-rspec'
   gem 'guard-cucumber'
   gem 'guard-spork'

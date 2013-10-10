@@ -1,10 +1,10 @@
 require 'capistrano/ext/multistage'
 require 'capistrano_colors'
 require 'bundler/capistrano'
+require 'capistrano-rbenv'
 
-require 'rvm/capistrano'                       # Load RVM"s capistrano plugin.
-set :rvm_ruby_string, 'ruby-2.0.0'             # Or whatever env you want it to run in.
-set :rvm_type, :system                         # Copy the exact line. I really mean :system here
+set :rbenv_ruby_version, '2.0.0-p247'
+set :rbenv_install_dependencies, false
 
 set :application, '%app_name%'
 set :scm, :git
@@ -33,6 +33,16 @@ namespace :customs do
       run("cd #{current_path}; BUNDLE_GEMFILE=#{current_path}/Gemfile bundle exec rake #{ENV['task']} RAILS_ENV=#{rails_env}")
     end
   end
+end
+
+namespace :rbenv do
+  task :setup_shellenv do
+    set :default_environment, {
+      'RBENV_ROOT' => "#{rbenv_path}",
+      'PATH' => "#{rbenv_path}/shims:#{rbenv_path}/bin:$PATH"
+    }
+  end
+  after 'multistage:ensure', 'rbenv:setup_shellenv'
 end
 
 def confirm
