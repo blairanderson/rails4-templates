@@ -20,8 +20,8 @@ gem 'airbrake'
 gem 'devise', github: 'plataformatec/devise'
 gem 'kaminari'
 gem 'rails_config'
-gem 'haml-rails'
-gem 'bootstrap-sass'
+gem 'slim-rails'
+gem 'bootstrap-sass', branch: '3'
 gem 'simple_form'
 gem 'paranoia', '~> 2.0.0'
 gem 'rails_admin'
@@ -86,7 +86,6 @@ remove_dir 'test'
 
 application <<-APPEND_APPLICATION
 config.generators do |g|
-      #g.template_engine     :haml
       g.test_framework      :rspec, fixture: true, view_specs: false
       g.integration_tool    :cucumber
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
@@ -110,9 +109,9 @@ get "#{repo_url}/Capfile", 'Capfile'
 
 # views
 remove_file 'app/views/layouts/application.html.erb'
-get_and_gsub "#{repo_url}/app/views/layouts/application.html.haml", 'app/views/layouts/application.html.haml'
+get_and_gsub "#{repo_url}/app/views/layouts/application.html.slim", 'app/views/layouts/application.html.slim'
 %w(first_page gap last_page next_page page paginator prev_page).each do |key|
-  get "https://raw.github.com/deeproot/twitter-bootstrap-kaminari-views-haml/master/app/views/kaminari/_#{key}.html.haml", "app/views/kaminari/_#{key}.html.haml"
+  get "https://raw.github.com/Ushiromia/bootstrap-kaminari-slim/master/app/views/kaminari/_#{key}.html.slim", "app/views/kaminari/_#{key}.html.slim"
 end
 
 # helpers
@@ -174,11 +173,11 @@ get "#{repo_url}/lib/sitemap.rb", 'lib/sitemap.rb'
 get "#{repo_url}/lib/tasks/extract_fixtures.rake", 'lib/tasks/extract_fixtures.rake'
 
 # lib/templates
-get "#{repo_url}/lib/templates/haml/scaffold/_form.html.haml", 'lib/templates/haml/scaffold/_form.html.haml'
-get "#{repo_url}/lib/templates/haml/scaffold/index.html.haml", 'lib/templates/haml/scaffold/index.html.haml'
-get "#{repo_url}/lib/templates/haml/scaffold/edit.html.haml", 'lib/templates/haml/scaffold/edit.html.haml'
-get "#{repo_url}/lib/templates/haml/scaffold/new.html.haml", 'lib/templates/haml/scaffold/new.html.haml'
-get "#{repo_url}/lib/templates/haml/scaffold/show.html.haml", 'lib/templates/haml/scaffold/show.html.haml'
+get "#{repo_url}/lib/templates/slim/scaffold/_form.html.slim", 'lib/templates/slim/scaffold/_form.html.slim'
+get "#{repo_url}/lib/templates/slim/scaffold/index.html.slim", 'lib/templates/slim/scaffold/index.html.slim'
+get "#{repo_url}/lib/templates/slim/scaffold/edit.html.slim", 'lib/templates/slim/scaffold/edit.html.slim'
+get "#{repo_url}/lib/templates/slim/scaffold/new.html.slim", 'lib/templates/slim/scaffold/new.html.slim'
+get "#{repo_url}/lib/templates/slim/scaffold/show.html.slim", 'lib/templates/slim/scaffold/show.html.slim'
 get "#{repo_url}/lib/templates/rails/scaffold_controller/controller.rb", 'lib/templates/rails/scaffold_controller/controller.rb'
 
 # rspec

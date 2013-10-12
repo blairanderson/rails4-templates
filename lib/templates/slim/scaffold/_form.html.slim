@@ -1,0 +1,12 @@
+= form_for @<%= singular_table_name %>, html: { class: 'form-horizontal', role: 'form' } do |f|
+  = show_errors @<%= singular_table_name %>
+
+<% attributes.each do |attribute| -%>
+  .form-group
+    = f.label :<%= attribute.name %>, class: 'col-lg-1 control-label'
+    .col-lg-8
+      = f.<%= attribute.field_type %> :<%= attribute.name %>, class: 'form-control'
+<% end -%>
+  .form-group
+    .col-lg-offset-1.col-lg-8
+      = f.submit t('helpers.submit.update'), class: 'btn btn-primary'
