@@ -2,7 +2,7 @@
 # Application Template
 #
 
-repo_url = 'https://raw.github.com/mtfuji/rails4-templates/master'
+repo_url = 'https://raw.github.com/mtfuji/rails4-templates/slim'
 gems = {}
 
 @app_name = app_name
@@ -17,11 +17,10 @@ end
 #
 
 gem 'airbrake'
-gem 'devise', github: 'plataformatec/devise'
+gem 'devise'
 gem 'kaminari'
 gem 'rails_config'
 gem 'slim-rails'
-gem 'bootstrap-sass', branch: '3'
 gem 'simple_form'
 gem 'paranoia', '~> 2.0.0'
 gem 'rails_admin'
@@ -133,7 +132,6 @@ insert_into_file 'config/database.yml',
                  %(cucumber:\n  <<: *test\n\n),
                  before: 'production:'
 run 'cp config/database.yml config/database.example.yml'
-#get "#{repo_url}/config/database.yml", 'config/database.yml'
 
 # config/deploy.rb
 get_and_gsub "#{repo_url}/config/deploy.rb", 'config/deploy.rb'
@@ -190,13 +188,10 @@ get "#{repo_url}/spec/support/controller_macros.rb", 'spec/support/controller_ma
 remove_file 'public/favicon.ico'
 get 'http://api.rubyonrails.org/favicon.ico', 'app/assets/images/favicon.ico'
 get "#{repo_url}/travis.yml", '.travis.yml'
-get 'http://newrelic.com/assets/pages/application_monitoring/logos/lang_ruby.png', 'app/assets/images/apple-touch-icon-144x144-precomposed.png'
-get 'https://fbexternal-a.akamaihd.net/safe_image.php?d=AQDXiqes17_vjH3T&w=155&h=114&url=http%3A%2F%2Fcdn.tutsplus.com%2Fnet.tutsplus.com%2Fauthors%2Fjeffreyway%2Frails-history-preview-image.png', 'app/assets/images/apple-touch-icon-114x114-precomposed.png'
-get 'http://4.bp.blogspot.com/-S5WVH9zVULA/UMHpxhJuZkI/AAAAAAAAAa4/w6LeyOLDfio/s72-c/150px-Ruby_on_Rails.svg.png', 'app/assets/images/apple-touch-icon-72x72-precomposed.png'
-get 'http://www.usahostingservices.com/pics/1-rubyonrails.PNG', 'app/assets/images/apple-touch-icon-precomposed.png'
-gsub_file 'app/assets/javascripts/application.js', /turbolinks/, 'bootstrap'
-append_to_file 'app/assets/stylesheets/application.css', '@import "bootstrap";'
+gsub_file 'app/assets/javascripts/application.js', /^.+turbolinks(\r\n|\r|\n)/, ''
 run 'mv app/assets/stylesheets/application.css app/assets/stylesheets/application.css.scss'
+get 'http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css', 'app/assets/stylesheets/bootstrap.min.css'
+get 'http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js', 'app/assets/javascripts/bootstrap.min.js'
 
 # remove .keep
 remove_file 'app/assets/images/.keep'
