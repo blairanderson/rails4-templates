@@ -2,7 +2,7 @@
 # Application Template
 #
 
-repo_url = 'https://raw.github.com/mtfuji/rails4-templates/slim'
+repo_url = 'https://raw.github.com/mtfuji/rails4-templates/master'
 gems = {}
 
 @app_name = app_name
