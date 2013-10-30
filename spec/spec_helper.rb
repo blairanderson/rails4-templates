@@ -55,19 +55,16 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 
+  config.include FactoryGirl::Syntax::Methods
+
   config.before(:suite) do
     load "#{Rails.root}/db/seeds.rb"
     seed_tables = %w(prefectures)
-    DatabaseCleaner.strategy = :truncation, { except: seed_tables}
-    DatabaseCleaner.clean_with(:truncation, { except: seed_tables})
-  end
-
-  config.before(:each) do
-    DatabaseCleaner.start
+    DatabaseRewinder.clean_with({ except: seed_tables})
   end
 
   config.after(:each) do
-    DatabaseCleaner.clean
+    DatabaseRewinder.clean
   end
 
   config.include Capybara::DSL, type: :feature

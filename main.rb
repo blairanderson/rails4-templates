@@ -32,14 +32,17 @@ gem_group :development do
   gem 'capistrano-rbenv'
 
   gem 'meta_request'
-  #gem 'pry-doc'
+  gem 'pry-doc'
   gem 'pry-rails'
   gem 'tapp'
   gem 'quiet_assets'
+  gem 'binding_of_caller'
+  gem 'hirb-unicode'
+  gem 'awesome_print'
 end
 
 gem_group :test do
-  gem 'database_cleaner'
+  gem 'database_rewinder'
   gem 'shoulda-matchers'
   gem 'factory_girl_rails'
   gem 'cucumber-rails', require: false
@@ -105,6 +108,9 @@ get "#{repo_url}/bundle.config", '.bundle/config'
 
 # capistrano
 get "#{repo_url}/Capfile", 'Capfile'
+
+# pry
+get "#{repo_url}/pryrc", '.pryrc'
 
 # views
 remove_file 'app/views/layouts/application.html.erb'
