@@ -1,9 +1,0 @@
-# let's see if comments work
-
-language: ruby
-rvm:
-  - 2.0.0
-bundler_args: '--without development deployment'
-before_install:
-  - gem install bundler --pre
-script: true

@@ -8,8 +8,6 @@ rails new APP_PATH -m https://raw.github.com/blairanderson/rails4-templates/mast
 
 ```bash
 bundle install
-./bin/rails g bootstrap:install
 ./bin/rails g devise:install
 ./bin/rails g devise User
-./bin/rails g bootstrap:layout application (fixed|fluid)
 ```
