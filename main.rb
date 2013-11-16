@@ -86,6 +86,7 @@ get "#{repo_url}/spec/support/controller_macros.rb", 'spec/support/controller_ma
 # static files
 remove_file 'public/favicon.ico'
 get 'http://api.rubyonrails.org/favicon.ico', 'app/assets/images/favicon.ico'
+get 'https://gist.github.com/rwdaigle/2253296/raw/newrelic.yml', 'config/newrelic.yml'
 
 remove_file 'app/assets/javascripts/application.js'
 get "#{repo_url}/app/assets/javascripts/application.js", 'app/assets/javascripts/application.js'
