@@ -3,7 +3,7 @@ module ApplicationHelper
     raw str.to_s.gsub(/\r\n|\r|\n/, '<br />')
   end
   
-  def show_errors(o)
+  def errors_for(o)
     return unless o.errors.any?
     
     result = '<div id="error_explanation">'
