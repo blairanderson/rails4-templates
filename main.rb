@@ -16,6 +16,7 @@ end
 # Gemfile
 #
 
+gem 'newrelic_rpm'
 gem 'airbrake'
 gem 'devise'
 gem 'kaminari'
@@ -27,17 +28,10 @@ gem 'rails_admin'
 #gem 'xml-sitemap'
 
 gem_group :development do
-  gem 'capistrano_colors'
-  gem 'capistrano-ext'
-  gem 'capistrano-rbenv'
-
-  gem 'meta_request'
   gem 'pry-doc'
   gem 'pry-rails'
-  gem 'tapp'
   gem 'quiet_assets'
   gem 'binding_of_caller'
-  gem 'hirb-unicode'
   gem 'awesome_print'
 end
 
@@ -45,12 +39,10 @@ gem_group :test do
   gem 'database_rewinder'
   gem 'shoulda-matchers'
   gem 'factory_girl_rails'
-  gem 'cucumber-rails', require: false
-  #gem 'faker'
+  gem 'faker'
 
   gem 'capybara'
   gem 'capybara-webkit'
-  gem 'selenium-webdriver'
 
   gem "simplecov", require: false
   gem 'simplecov-rcov', require: false
@@ -64,7 +56,6 @@ end
 
 gem_group :development, :test do
   gem 'debugger'
-  gem 'zeus'
   gem 'sqlite3'
   gem 'thin'
   gem 'rspec-rails'
@@ -72,12 +63,11 @@ gem_group :development, :test do
 end
 
 gem_group :production do
-  gem 'mysql2'
+  gem 'pg'
+  gem 'rails_12factor'
 end
 
 comment_lines 'Gemfile', "gem 'sqlite3'"
-comment_lines 'Gemfile', "gem 'turbolinks'"
-uncomment_lines 'Gemfile', "gem 'therubyracer'"
 
 #
 # Files and Directories
@@ -89,7 +79,7 @@ remove_dir 'test'
 application <<-APPEND_APPLICATION
 config.generators do |g|
       g.test_framework      :rspec, fixture: true, view_specs: false
-      g.integration_tool    :cucumber
+      g.integration_tool    :capybara
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
     end
     
@@ -106,83 +96,15 @@ remove_file 'app/assets/images/rails.png'
 # bundler
 get "#{repo_url}/bundle.config", '.bundle/config'
 
-# capistrano
-get "#{repo_url}/Capfile", 'Capfile'
-
 # pry
 get "#{repo_url}/pryrc", '.pryrc'
-
-# views
-remove_file 'app/views/layouts/application.html.erb'
-get_and_gsub "#{repo_url}/app/views/layouts/application.html.slim", 'app/views/layouts/application.html.slim'
-%w(first_page gap last_page next_page page paginator prev_page).each do |key|
-  get "https://raw.github.com/Ushiromia/bootstrap-kaminari-slim/master/app/views/kaminari/_#{key}.html.slim", "app/views/kaminari/_#{key}.html.slim"
-end
 
 # helpers
 remove_file 'app/helpers/application_helper.rb'
 get "#{repo_url}/app/helpers/application_helper.rb", 'app/helpers/application_helper.rb'
 
-# config/deploy
-get "#{repo_url}/config/deploy/production.rb", 'config/deploy/production.rb'
-
-# config/locales/ja.yml
-get 'https://raw.github.com/svenfuchs/rails-i18n/master/rails/locale/ja.yml', 'config/locales/ja.yml'
-get 'https://gist.github.com/raw/3104030/d3cd6bf55bc905b89b6e08d9454a48c92b81bfdc/devise.ja.yml', 'config/locales/devise.ja.yml'
-get 'https://gist.github.com/mshibuya/1662352/raw/a5ce6fb646d53ca44434a8b7ab238aeeb8791d27/rails_admin.ja.yml', 'config/rails_admin.ja.yml'
-get "#{repo_url}/config/locales/helpers.ja.yml", 'config/locales/helpers.ja.yml'
-
-# config/database.yml
-gsub_file 'config/database.yml', /^test:$/, 'test: &test'
-insert_into_file 'config/database.yml',
-                 %(cucumber:\n  <<: *test\n\n),
-                 before: 'production:'
-run 'cp config/database.yml config/database.example.yml'
-
-# config/deploy.rb
-get_and_gsub "#{repo_url}/config/deploy.rb", 'config/deploy.rb'
-
-# config/application.rb
-insert_into_file 'config/application.rb',
-                 %(    config.time_zone = 'Tokyo'\n),
-                 after: "# config.time_zone = 'Central Time (US & Canada)'\n"
-
-insert_into_file 'config/application.rb',
-                 %(    config.i18n.default_locale = :ja\n),
-                 after: "# config.i18n.default_locale = :de\n"
-
-# config/environments/development.rb
-insert_into_file 'config/environments/development.rb',
-                 %(    config.action_mailer.delivery_method = :file\n    config.action_mailer.default_url_options = Settings.action_mailer.default_url_options.to_hash\n),
-                 after: "config.action_mailer.raise_delivery_errors = false\n"
-
-# config/environments/test.rb
-insert_into_file 'config/environments/test.rb',
-                 %(    config.action_mailer.default_url_options = { host: 'example.com' }\n),
-                 after: "config.action_mailer.delivery_method = :test\n"
-
-# config/settings
-run 'touch config/settings.yml'
-get "#{repo_url}/config/settings/development.yml", 'config/settings/development.yml'
-get "#{repo_url}/config/settings/test.yml", 'config/settings/test.yml'
-get_and_gsub "#{repo_url}/config/settings/production.yml", 'config/settings/production.yml'
-
-# config/initializers
-get "#{repo_url}/config/initializers/errbit.rb", 'config/initializers/errbit.rb'
-
 # lib
 get "#{repo_url}/lib/sitemap.rb", 'lib/sitemap.rb'
-
-# lib/tasks
-get "#{repo_url}/lib/tasks/extract_fixtures.rake", 'lib/tasks/extract_fixtures.rake'
-
-# lib/templates
-get "#{repo_url}/lib/templates/slim/scaffold/_form.html.slim", 'lib/templates/slim/scaffold/_form.html.slim'
-get "#{repo_url}/lib/templates/slim/scaffold/index.html.slim", 'lib/templates/slim/scaffold/index.html.slim'
-get "#{repo_url}/lib/templates/slim/scaffold/edit.html.slim", 'lib/templates/slim/scaffold/edit.html.slim'
-get "#{repo_url}/lib/templates/slim/scaffold/new.html.slim", 'lib/templates/slim/scaffold/new.html.slim'
-get "#{repo_url}/lib/templates/slim/scaffold/show.html.slim", 'lib/templates/slim/scaffold/show.html.slim'
-get "#{repo_url}/lib/templates/rails/scaffold_controller/controller.rb", 'lib/templates/rails/scaffold_controller/controller.rb'
 
 # rspec
 get "#{repo_url}/rspec", '.rspec'
@@ -194,10 +116,7 @@ get "#{repo_url}/spec/support/controller_macros.rb", 'spec/support/controller_ma
 remove_file 'public/favicon.ico'
 get 'http://api.rubyonrails.org/favicon.ico', 'app/assets/images/favicon.ico'
 get "#{repo_url}/travis.yml", '.travis.yml'
-gsub_file 'app/assets/javascripts/application.js', /^.+turbolinks(\r\n|\r|\n)/, ''
 run 'mv app/assets/stylesheets/application.css app/assets/stylesheets/application.css.scss'
-get 'http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css', 'app/assets/stylesheets/bootstrap.min.css'
-get 'http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js', 'app/assets/javascripts/bootstrap.min.js'
 
 # remove .keep
 remove_file 'app/assets/images/.keep'
