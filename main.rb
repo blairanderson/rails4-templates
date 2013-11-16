@@ -72,9 +72,6 @@ get "#{repo_url}/gitignore", '.gitignore'
 remove_file 'public/index.html'
 remove_file 'app/assets/images/rails.png'
 
-# bundler
-get "#{repo_url}/bundle.config", '.bundle/config'
-
 # helpers
 remove_file 'app/helpers/application_helper.rb'
 get "#{repo_url}/app/helpers/application_helper.rb", 'app/helpers/application_helper.rb'
@@ -91,7 +88,17 @@ get "#{repo_url}/spec/support/controller_macros.rb", 'spec/support/controller_ma
 # static files
 remove_file 'public/favicon.ico'
 get 'http://api.rubyonrails.org/favicon.ico', 'app/assets/images/favicon.ico'
-run 'mv app/assets/stylesheets/application.css app/assets/stylesheets/application.css.scss'
+
+remove_file 'app/assets/javascripts/application.js'
+get "#{repo_url}/app/assets/javascripts/application.js", 'app/assets/javascripts/application.js'
+
+remove_file 'app/assets/stylesheets/application.css'
+get "#{repo_url}/app/assets/stylesheets/application.css.scss", 'app/assets/stylesheets/application.css.scss'
+get "#{repo_url}/app/assets/stylesheets/mixins.css.scss", 'app/assets/stylesheets/mixins.css.scss'
+get "#{repo_url}/app/assets/stylesheets/navbar.css.scss", 'app/assets/stylesheets/navbar.css.scss'
+get "#{repo_url}/app/assets/stylesheets/navbar.css.scss", 'app/assets/stylesheets/navbar.css.scss'
+get "#{repo_url}/app/assets/stylesheets/bootstrap_and_overrides.css.scss", 'app/assets/stylesheets/bootstrap_and_overrides.css.scss'
+
 
 # remove .keep
 remove_file 'app/assets/images/.keep'
