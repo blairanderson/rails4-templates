@@ -16,6 +16,11 @@ end
 # Gemfile
 #
 
+gem_group :production do
+  gem 'pg'
+  gem 'rails_12factor'
+end
+
 gem 'newrelic_rpm'
 gem 'airbrake'
 gem 'devise'
@@ -43,11 +48,6 @@ gem_group :development, :test do
   gem 'thin'
   gem 'rspec-rails'
   gem 'pry-rails'
-end
-
-gem_group :production do
-  gem 'pg'
-  gem 'rails_12factor'
 end
 
 # use Rspec instead of TestUnit
