@@ -22,7 +22,6 @@ gem 'devise'
 gem 'kaminari'
 gem 'simple_form'
 gem 'paranoia', '~> 2.0.0'
-gem 'rails_admin'
 gem 'bootstrap-sass', github: 'thomas-mcdonald/bootstrap-sass', branch: '3'
 
 gem_group :development do
@@ -34,7 +33,6 @@ gem_group :test do
   gem 'factory_girl_rails', '~> 4.0'
   gem 'shoulda-matchers'
   gem 'capybara'
-  gem 'capybara-webkit'
   gem 'rb-fsevent'
   gem 'guard-rspec'
 end
