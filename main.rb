@@ -15,63 +15,44 @@ end
 #
 # Gemfile
 #
+ruby '2.0.0'
+source 'https://rubygems.org'
 
 gem 'newrelic_rpm'
 gem 'airbrake'
 gem 'devise'
 gem 'kaminari'
-gem 'rails_config'
-gem 'slim-rails'
 gem 'simple_form'
 gem 'paranoia', '~> 2.0.0'
 gem 'rails_admin'
-#gem 'xml-sitemap'
+gem 'bootstrap-sass', github: 'thomas-mcdonald/bootstrap-sass', branch: '3'
 
 gem_group :development do
-  gem 'pry-doc'
-  gem 'pry-rails'
-  gem 'quiet_assets'
+  gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'awesome_print'
 end
 
 gem_group :test do
-  gem 'database_rewinder'
+  gem 'factory_girl_rails', '~> 4.0'
   gem 'shoulda-matchers'
-  gem 'factory_girl_rails'
-  gem 'faker'
-
   gem 'capybara'
   gem 'capybara-webkit'
-
-  gem "simplecov", require: false
-  gem 'simplecov-rcov', require: false
-
-  gem 'rb-fsevent', require: false
-  gem 'spork', '1.0.0rc3'
+  gem 'rb-fsevent'
   gem 'guard-rspec'
-  gem 'guard-cucumber'
-  gem 'guard-spork'
 end
 
 gem_group :development, :test do
-  gem 'debugger'
   gem 'sqlite3'
+  gem 'faker'
   gem 'thin'
   gem 'rspec-rails'
-  #gem 'timecop'
+  gem 'pry-rails'
 end
 
 gem_group :production do
   gem 'pg'
   gem 'rails_12factor'
 end
-
-comment_lines 'Gemfile', "gem 'sqlite3'"
-
-#
-# Files and Directories
-#
 
 # use Rspec instead of TestUnit
 remove_dir 'test'
@@ -112,7 +93,6 @@ get "#{repo_url}/spec/support/controller_macros.rb", 'spec/support/controller_ma
 # static files
 remove_file 'public/favicon.ico'
 get 'http://api.rubyonrails.org/favicon.ico', 'app/assets/images/favicon.ico'
-get "#{repo_url}/travis.yml", '.travis.yml'
 run 'mv app/assets/stylesheets/application.css app/assets/stylesheets/application.css.scss'
 
 # remove .keep
