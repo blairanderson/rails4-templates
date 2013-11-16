@@ -3,17 +3,11 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
-require 'spork'
+
 require 'capybara/rails'
 require 'capybara/rspec'
 require 'capybara-webkit'
 require 'selenium-webdriver'
-
-Spork.prefork do
-end
-
-Spork.each_run do
-end
 
 Capybara.current_driver = :selenium
 Capybara.javascript_driver = :webkit
@@ -56,16 +50,6 @@ RSpec.configure do |config|
   config.order = "random"
 
   config.include FactoryGirl::Syntax::Methods
-
-  config.before(:suite) do
-    load "#{Rails.root}/db/seeds.rb"
-    seed_tables = %w(prefectures)
-    DatabaseRewinder.clean_with({ except: seed_tables})
-  end
-
-  config.after(:each) do
-    DatabaseRewinder.clean
-  end
 
   config.include Capybara::DSL, type: :feature
 
