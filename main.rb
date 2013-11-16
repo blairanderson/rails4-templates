@@ -96,9 +96,6 @@ remove_file 'app/assets/images/rails.png'
 # bundler
 get "#{repo_url}/bundle.config", '.bundle/config'
 
-# pry
-get "#{repo_url}/pryrc", '.pryrc'
-
 # helpers
 remove_file 'app/helpers/application_helper.rb'
 get "#{repo_url}/app/helpers/application_helper.rb", 'app/helpers/application_helper.rb'
