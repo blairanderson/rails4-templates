@@ -63,6 +63,22 @@ config.generators do |g|
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
 APPEND_APPLICATION
 
+
+
+# config/environments/development.rb
+insert_into_file 'config/environments/development.rb',
+                 %(    config.action_mailer.delivery_method = :file\n    config.action_mailer.default_url_options = Settings.action_mailer.default_url_options.to_hash\n),
+                 after: "config.action_mailer.raise_delivery_errors = false\n"
+
+# config/environments/test.rb
+insert_into_file 'config/environments/test.rb',
+                 %(    config.action_mailer.default_url_options = { host: 'example.com' }\n),
+                 after: "config.action_mailer.delivery_method = :test\n"
+
+# config/initializers
+get "#{repo_url}/config/initializers/errbit.rb", 'config/initializers/errbit.rb'
+get 'https://gist.github.com/rwdaigle/2253296/raw/newrelic.yml', 'config/newrelic.yml'
+
 # .gitignore
 remove_file '.gitignore'
 get "#{repo_url}/gitignore", '.gitignore'
@@ -86,7 +102,6 @@ get "#{repo_url}/spec/support/controller_macros.rb", 'spec/support/controller_ma
 # static files
 remove_file 'public/favicon.ico'
 get 'http://api.rubyonrails.org/favicon.ico', 'app/assets/images/favicon.ico'
-get 'https://gist.github.com/rwdaigle/2253296/raw/newrelic.yml', 'config/newrelic.yml'
 
 remove_file 'app/assets/javascripts/application.js'
 get "#{repo_url}/app/assets/javascripts/application.js", 'app/assets/javascripts/application.js'
